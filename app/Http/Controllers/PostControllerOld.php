@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
-use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -17,7 +16,17 @@ class PostController extends Controller
     {
         $posts = Post::all();
         return view('posts.index',compact('posts'));
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexPublished()
+    {
 
+        $posts = Post::were('published', '1')->get();
+        return view('posts.published', compact('posts'));
     }
 
     /**
@@ -27,7 +36,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+    
     }
 
     /**
@@ -38,14 +47,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $data['slug'] = Str::slug($data['title'] , '_');
-        $post = new Post;
-        $post->fill($data);
-        $post->save();
-        // dd($post);
-        return redirect()->route('posts.show', $post->id);
-
+        //
     }
 
     /**
@@ -56,7 +58,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        dd($id);
+        //
     }
 
     /**
