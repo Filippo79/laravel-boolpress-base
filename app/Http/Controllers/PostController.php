@@ -68,9 +68,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $post = Post::find($id);
+        $post = Post::where('slug' , $slug)->first();
         if(empty($post)) {
             abort('404');
         }

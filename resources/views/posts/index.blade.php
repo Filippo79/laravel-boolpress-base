@@ -18,7 +18,7 @@
                 <tbody>
                     @foreach ($posts as  $post)
                         <tr>
-                            <td><a href="{{route('posts.show', $post->id)}}"></a>{{$post->title}}</td>
+                            <td><a href="{{route('posts.show', $post->slug)}}">{{$post->title}}</a></td>
                             <td>Scritto da {{$post->author}}</td>
                         </tr>
                     @endforeach
