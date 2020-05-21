@@ -12,6 +12,9 @@
             <div class="">
                 <label for="title">Titolo</label>
                 <input type="text" name="title" placeholder="Inserisci il Testo">
+                @error('title')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                 @enderror
             </div>
             <div class="">
                 <label for="title">Autore</label>
