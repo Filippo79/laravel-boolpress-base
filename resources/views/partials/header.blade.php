@@ -7,7 +7,7 @@
                     <span class="navbar-toggler-icon"></span>
                   </button>
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item"><a class="nav-link" href="">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{route('home')}}">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{route('posts.index')}}">Articoli</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{route('photos.index')}}">Foto</a></li>
                 </ul>
