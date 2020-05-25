@@ -7,12 +7,12 @@
         <title>Create</title>
     </head>
     <body>
-        <form  action="{{route('posts.store')}}" method="POST">
+        <form  action="{{route('posts.update', $post->id)}}" method="POST">
             @csrf
-            @method('POST')
+            @method('PUT')
             <div class="">
                 <label for="title">Titolo</label>
-                <input type="text" name="title" value="{{ old('title') }}" placeholder="Inserisci il Testo">
+                <input type="text" name="title" value="{{ (!empty(old('title') )) ? old('title') : $post->title}}" placeholder="Inserisci il Testo">
                 @error('title')
                     <spam class="alert alert-danger">{{ $message }}</spam>
                  @enderror

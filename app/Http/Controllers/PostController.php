@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Post;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class PostController extends Controller
 {
@@ -40,7 +41,8 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $data['slug'] = Str::slug($data['title'] , '_') .rand(1,100);
+        $now = carbon::now()->format('Y-m-d-H-i-s-u');
+        $data['slug'] = Str::slug($data['title'] , '-') . $now;
         $validator = Validator::make($data, [
             'title'=> 'required|string|max:150',
             'author' => 'required',
@@ -53,12 +55,17 @@ class PostController extends Controller
                 ->withInput();
         }
         $post = new Post;
+        if (empty($data['img'])) {
+            unset($data['img']);
+            // $data['img'] = 'mio path';
+        }
+        // dd($data);
         $post->fill($data);
         $saved = $post->save();
         if(!$saved) {
             dd('errore di salvataggio');
         }
-        return redirect()->route('posts.show', $post->id);
+        return redirect()->route('posts.show', $post->slug);
 
     }
 
@@ -84,9 +91,13 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        // dd($post);
+        if(empty($post)) {
+            abort('404');
+        }
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -98,7 +109,30 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = Post::find($id);
+        if(empty($post)){
+            abort('404');
+        }
+        $data = $request->all();
+        $now = carbon::now()->format('Y-m-d-H-i-s-u');
+        $data['slug'] = Str::slug($data['title'] , '-') . $now;
+        $validator = Validator::make($data, [
+            'title'=> 'required|string|max:150',
+            'author' => 'required',
+            'text' => 'required',
+            'data' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return redirect('posts/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        if (empty($data['img'])) {
+            unset($data['img']);
+        }
+        $post->fill($data);
+        $update = $post->update();
+        return redirect()->route('posts.show', compact('post'));
     }
 
     /**

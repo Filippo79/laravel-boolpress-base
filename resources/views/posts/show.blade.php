@@ -13,7 +13,7 @@
                     <h2>{{$post->title}}</h2>
                     <small>Scritto da {{$post->author}}</small>
                     <div class="text">
-                        {{$post->text}}
+                        {!!$post->text!!}
                     </div>
                     <div class="img">
                         <img src="{{$post->img}}" alt="{{$post->title}}">
